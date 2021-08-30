@@ -26,6 +26,8 @@ relevantMeasures <- df %>%
 # Assigning significant activity names
 relevantMeasures$activity <- recode(relevantMeasures$activity,'walking','walking upstairs','walking downstairs','sitting','standing','laying')
 # Melting by subject and activity then taking the average
-melt <- relevantMeasures %>% melt(id=c("subject","activity"))
-averages <- dcaswrite.table(relevantMeasures)
-write.table(relevantMeasures)
+melt <- relevantMeasures %>% melt(id=c("subject","activity","type"))
+averages <- dcast(melt,subject+activity ~ variable,mean)
+# Exporting tidy data sets
+write.table(relevantMeasures,"tidy1.txt",row.name=FALSE)
+write.table(averages,"tidy2.txt",row.name=FALSE)
